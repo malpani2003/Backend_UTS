@@ -27,6 +27,11 @@ mongoose
 .catch((error) => console.log("DB connection error:", error));
 
 
+app.get('/', (req, res) => {
+  res.send("Backend Running Healthy");
+});
+
+
 app.use("/api/carrers", internshipRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/admin", adminRoutes);

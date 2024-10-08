@@ -4,7 +4,7 @@ const aboutPageSchema = new mongoose.Schema({
   shortDescription: { type: String, required: true },
   detailDescription: { type: String, required: true },
   highlightPoints: [{ type: String }],
-  overview: { type: String, required: true },
+  overview: { type: String, required: true }, 
   mission: {
     text: { type: String, required: true },
     image: { type: String, required: true },

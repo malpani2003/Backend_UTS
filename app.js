@@ -15,9 +15,10 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-const PORT = process.env.PORT || 5000;
-const URL= "mongodb://localhost:27017/UTS_ADMIN";
+const PORT = process.env.PORT || 5000; 
+const URL= process.env.MONGO_URL || "mongodb://localhost:27017/UTS_ADMIN";
 // process.env.MONGO_URL
+// console.log(process.env.MONGO_URL);
 app.use(express.json());
 
 mongoose

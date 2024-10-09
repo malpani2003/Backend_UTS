@@ -1,20 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const aboutController = require('../controllers/aboutPageController');
+const adminAuth = require('../middleware/authMiddleware');  
 
-// about Page Data
+// About Page Data (accessible to everyone)
 router.get('/', aboutController.getAboutPage);
 
-// admin
+// Admin Routes
 
-// create About Data
-router.post('/', aboutController.createAboutPage);
+// Create About Page Data 
+router.post('/', adminAuth.checkIsAdmin, aboutController.createAboutPage);
 
-// update Page Data
-router.put('/:id', aboutController.updateAboutPage);
+// Update About Page Data 
+router.put('/:id', adminAuth.checkIsAdmin, aboutController.updateAboutPage);
 
-// delete about Data
-router.delete('/:id', aboutController.deleteAboutPage);
-
+// Delete About Page Data 
+router.delete('/:id', adminAuth.checkIsAdmin, aboutController.deleteAboutPage);
 
 module.exports = router;

@@ -2,12 +2,13 @@ const jwt = require("jsonwebtoken");
 const Admin = require("../models/userModel");
 
 const checkIsAdmin = async (req, res, next) => {
+  console.log(req.cookies);
   const token = req.cookies.token || req.headers["authorization"];
-
+  console.log(token);
   if (!token) {
     return res
       .status(403)
-      .json({ message: "Forbidden: Access is denied. No token provided." });
+      .json({ message: "Forbidden: Access is denied. Please Login First" });
   }
 
   try {
@@ -15,7 +16,7 @@ const checkIsAdmin = async (req, res, next) => {
     const adminId = decoded._id;
     
     const adminData = await Admin.findById(adminId);
-
+    console.log(adminData);
     if (adminData) {
       return next();
     } else {

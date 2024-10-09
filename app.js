@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 // Importing routes
 const internshipRoutes = require("./routes/internshipRoutes");
@@ -16,7 +17,15 @@ const companyContactRoutes = require("./routes/companyContactRoutes");
 const servicePageRoutes = require("./routes/ServicePageRoutes");
 
 const app = express();
-app.use(cors());
+
+const corsOptions = {
+  origin: "*", 
+  credential:true,
+  methods: ["GET", "POST", "PUT", "DELETE"], 
+};
+
+app.use(cors(corsOptions));
+app.use(cookieParser());
 app.use(bodyParser.json());
 
 const PORT = process.env.PORT || 5000;

@@ -1,4 +1,6 @@
 const Contact = require("../models/contactModel");
+const nodemailer = require('nodemailer');
+const transporter=require("../config/node_mailer");
 
 const submitContact = async (req, res) => {
   const { name, email, mobileNumber, message } = req.body;
@@ -10,28 +12,34 @@ const submitContact = async (req, res) => {
       mobileNumber,
       message,
     });
+    
     await newContact.save();
-    // const adminEmail = process.env.ADMIN_EMAIL;
-    // const msg = {
-    //   to: adminEmail,
-    //   from: process.env.EMAIL_USER,
-    //   subject: 'New Contact Form Submission',
-    //   text: `
-    //     Name: ${name}
-    //     Email: ${email}
-    //     Mobile Number: ${mobileNumber}
-    //     Message: ${message}
-    //   `,
-    //   html: `
-    //     <p>Name: ${name}</p>
-    //     <p>Email: ${email}</p>
-    //     <p>Mobile Number: ${mobileNumber}</p>
-    //     <p>Message: ${message}</p>
-    //   `
-    // };
-    // await sgMail.send(msg);
+    
+    // Prepare the email data
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: process.env.ADMIN_EMAIL,
+      subject: 'New Contact Form Submission',
+      text: `
+        Name: ${name}
+        Email: ${email}
+        Mobile Number: ${mobileNumber}
+        Message: ${message}
+      `,
+      html: `
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Mobile Number:</strong> ${mobileNumber}</p>
+        <p><strong>Message:</strong> ${message}</p>
+      `,
+    };
+
+    // Send the email
+    await transporter.sendMail(mailOptions);
+
     res.status(201).json({ message: "Message submitted successfully" });
   } catch (error) {
+    console.error(error);
     res.status(400).json({ error: "Failed to submit message" });
   }
 };

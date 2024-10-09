@@ -13,6 +13,7 @@ const contactRoutes = require("./routes/contactRoutes");
 const homePageRoutes = require("./routes/homePageRoutes");
 const aboutPageRoutes = require("./routes/aboutPageRoutes");
 const companyContactRoutes = require("./routes/companyContactRoutes");
+const servicePageRoutes = require("./routes/ServicePageRoutes");
 
 const app = express();
 app.use(cors());
@@ -38,9 +39,10 @@ app.use("/api/blogs", blogRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/sliders", sliderRoutes);
 app.use("/api/contacts", contactRoutes);
-app.use("/api/home-pages", homePageRoutes);
-app.use("/api/about-pages", aboutPageRoutes);
-app.use("/api/company-contacts", companyContactRoutes);
+app.use("/api/home-page", homePageRoutes);
+app.use("/api/about-page", aboutPageRoutes);
+app.use("/api/service-page",servicePageRoutes); 
+app.use("/api/company-contact", companyContactRoutes);
 
 app.use("*", (req, res) => {
   res

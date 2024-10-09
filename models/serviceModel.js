@@ -18,22 +18,15 @@ const moreServiceSchema = new mongoose.Schema({
   imageUrl: { type: String },
 });
 
-const socialMediaLinkSchema = new mongoose.Schema({
-  facebook: { type: String },
-  twitter: { type: String },
-  linkedin: { type: String },
-  pinterest: { type: String },
-});
-
 const WebPageSchema = new mongoose.Schema(
   {
     services: [ServiceSchema],
     testimonials: [TestimonialSchema],
     moreServices: [moreServiceSchema],
-    socialLinks: socialMediaLinkSchema,
   },
   { timestamps: true }
 );
 
-const WebPage = mongoose.model("WebPage", WebPageSchema);
+const WebPage = mongoose.model("servicePage", WebPageSchema);
 module.exports = WebPage;
+

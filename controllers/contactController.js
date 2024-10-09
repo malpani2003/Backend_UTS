@@ -1,4 +1,4 @@
-const Contact = require('../models/contactModel');
+const Contact = require("../models/contactModel");
 
 const submitContact = async (req, res) => {
   const { name, email, mobileNumber, message } = req.body;
@@ -8,12 +8,31 @@ const submitContact = async (req, res) => {
       name,
       email,
       mobileNumber,
-      message
+      message,
     });
     await newContact.save();
-    res.status(201).json({ message: 'Message submitted successfully' });
+    // const adminEmail = process.env.ADMIN_EMAIL;
+    // const msg = {
+    //   to: adminEmail,
+    //   from: process.env.EMAIL_USER,
+    //   subject: 'New Contact Form Submission',
+    //   text: `
+    //     Name: ${name}
+    //     Email: ${email}
+    //     Mobile Number: ${mobileNumber}
+    //     Message: ${message}
+    //   `,
+    //   html: `
+    //     <p>Name: ${name}</p>
+    //     <p>Email: ${email}</p>
+    //     <p>Mobile Number: ${mobileNumber}</p>
+    //     <p>Message: ${message}</p>
+    //   `
+    // };
+    // await sgMail.send(msg);
+    res.status(201).json({ message: "Message submitted successfully" });
   } catch (error) {
-    res.status(400).json({ error: 'Failed to submit message' });
+    res.status(400).json({ error: "Failed to submit message" });
   }
 };
 
@@ -22,9 +41,8 @@ const getAllContacts = async (req, res) => {
     const contacts = await Contact.find();
     res.status(200).json(contacts);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch contact messages' });
+    res.status(500).json({ error: "Failed to fetch contact messages" });
   }
 };
 
-
-module.exports={getAllContacts,submitContact}
+module.exports = { getAllContacts, submitContact };

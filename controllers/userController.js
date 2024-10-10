@@ -24,7 +24,7 @@ const loginAdmin = async (req, res) => {
     if (!admin) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
-
+ 
     const isMatch = await admin.comparePassword(password);
     if (!isMatch) {
       return res.status(401).json({ error: "Invalid email or password" });

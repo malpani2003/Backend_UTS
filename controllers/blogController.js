@@ -3,7 +3,7 @@ const cloudinary = require("../config/cloudinaryConfig");
 
 const getAllBlogs = async (req, res) => {
   try {
-    const blogs = await Blog.find({}, { detail: 0 });
+    const blogs = await Blog.find({});
     res.status(200).json({
       status: "success",
       results: blogs.length,
@@ -45,16 +45,15 @@ const getBlogById = async (req, res) => {
 const createBlog = async (req, res) => {
   try {
     const { title, author, shortDescription, detail } = req.body;
-
-    const file = req.file; // File is now in memory, not on disk
+    
+    const file = req.file;
     if (!file) {
       return res.status(400).json({
         status: "fail",
         message: "No file uploaded",
       });
     }
-
-    // Cloudinary upload stream handling
+    
     const cloudinaryResult = await new Promise((resolve, reject) => {
       cloudinary.uploader.upload_stream(
         {
@@ -64,27 +63,87 @@ const createBlog = async (req, res) => {
         },
         (error, result) => {
           if (error) {
-            return reject(error); // Error for this request
+            return reject(error);
           }
-          resolve(result); // Successful upload
+          resolve(result);
         }
-      ).end(file.buffer); // Pipe file buffer to Cloudinary
+      ).end(file.buffer);
     });
-
+    
     const imageUrl = cloudinaryResult.secure_url;
     const newBlog = new Blog({
       title,
       author,
       shortDescription,
       detail,
-      image: imageUrl, // Save the image URL in the blog post
+      image: imageUrl,
     });
-
-    await newBlog.save(); // Save the blog to the database
+    
+    await newBlog.save();
     res.status(201).json({
       status: "success",
       data: {
         blog: newBlog,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};
+
+const updateBlog = async (req, res) => {
+  try {
+    const { title, author, shortDescription, detail } = req.body;
+    const blogId = req.params.id;
+
+
+    let updateData = {
+      title,
+      author,
+      shortDescription,
+      detail,
+    };
+
+    // Check if a new image file is uploaded
+    if (req.file) {
+      const cloudinaryResult = await new Promise((resolve, reject) => {
+        cloudinary.uploader.upload_stream(
+          {
+            folder: "UTS_Images",
+            allowed_formats: ["jpg", "jpeg", "png", "gif"],
+            transformation: { width: 500, height: 500, crop: "limit" },
+          },
+          (error, result) => {
+            if (error) {
+              return reject(error);
+            }
+            resolve(result);
+          }
+        ).end(req.file.buffer);
+      });
+      
+      updateData.image = cloudinaryResult.secure_url;
+    }
+
+    const updatedBlog = await Blog.findByIdAndUpdate(blogId, updateData, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedBlog) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Blog not found",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        blog: updatedBlog,
       },
     });
   } catch (error) {
@@ -120,5 +179,6 @@ module.exports = {
   getAllBlogs,
   getBlogById,
   createBlog,
+  updateBlog,
   deleteBlog,
 };

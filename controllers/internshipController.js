@@ -30,6 +30,34 @@ const createInternship = async (req, res) => {
   }
 };
 
+const updateInternship = async (req, res) => {
+
+  try {
+    console.log(req.params,req.body);
+    const updatedInternship = await Internship.findByIdAndUpdate(
+      req.params.id, 
+      req.body, 
+      { new: true } 
+    );
+
+    if (!updatedInternship) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Internship not found",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: updatedInternship,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};
 
 const deleteInternship = async (req, res) => {
   try {
@@ -56,4 +84,5 @@ module.exports = {
   getAllInternships,
   deleteInternship,
   createInternship,
+  updateInternship
 };

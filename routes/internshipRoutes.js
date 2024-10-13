@@ -7,15 +7,8 @@ const router = express.Router();
 router.get("/", internshipController.getAllInternships);
 
 // admin
-router.post(
-  "/",
-  authMiddleware.checkIsAdmin,
-  internshipController.createInternship
-);
-router.delete(
-  "/:id",
-  authMiddleware.checkIsAdmin,
-  internshipController.deleteInternship
-);
+router.post("/", internshipController.createInternship);
+router.put("/:id", internshipController.updateInternship);
+router.delete("/:id", internshipController.deleteInternship);
 
 module.exports = router;

@@ -8,6 +8,6 @@ router.post('/submit', contactController.submitContact);
 
 // admin
 // get all contact submissions
-router.get('/', authenticateAdmin.checkIsAdmin, contactController.getAllContacts);
+router.get('/', contactController.getAllContacts);
 
 module.exports = router;

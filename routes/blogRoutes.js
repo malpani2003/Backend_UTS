@@ -15,10 +15,11 @@ router.get("/:id", blogController.getBlogById);
 // add a new blog
 router.post(
   "/",
-  adminAuth.checkIsAdmin,
+  // adminAuth.checkIsAdmin,
   uploadMiddlware.single("image"),
   blogController.createBlog
 );
+router.put("/:id", uploadMiddlware.single("image"), blogController.updateBlog);
 // delete a blog
 router.delete("/:id", adminAuth.checkIsAdmin, blogController.deleteBlog);
 

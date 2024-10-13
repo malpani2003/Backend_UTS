@@ -15,6 +15,7 @@ const homePageRoutes = require("./routes/homePageRoutes");
 const aboutPageRoutes = require("./routes/aboutPageRoutes");
 const companyContactRoutes = require("./routes/companyContactRoutes");
 const servicePageRoutes = require("./routes/ServicePageRoutes");
+const testimonialRoutes=require("./routes/testimonialRoutes");
 
 const app = express();
 
@@ -52,6 +53,7 @@ app.use("/api/home-page", homePageRoutes);
 app.use("/api/about-page", aboutPageRoutes);
 app.use("/api/service-page",servicePageRoutes); 
 app.use("/api/company-contact", companyContactRoutes);
+app.use("/api/testimonial",testimonialRoutes);
 
 app.use("*", (req, res) => {
   res

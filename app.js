@@ -19,10 +19,20 @@ const testimonialRoutes=require("./routes/testimonialRoutes");
 
 const app = express();
 
+
+// Dev
+
+// const corsOptions = {
+//   origin: "http://localhost:3000", 
+//   credentials:true,
+// };
+
+
+// Production
+
 const corsOptions = {
-  origin: "*", 
-  credential:true,
-  methods: ["GET", "POST", "PUT", "DELETE"], 
+  origin: "https://admin-panel-uts.netlify.app", 
+  credentials:true,
 };
 
 app.use(cors(corsOptions));
@@ -53,7 +63,7 @@ app.use("/api/home-page", homePageRoutes);
 app.use("/api/about-page", aboutPageRoutes);
 app.use("/api/service-page",servicePageRoutes); 
 app.use("/api/company-contact", companyContactRoutes);
-app.use("/api/testimonial",testimonialRoutes);
+app.use("/api/testimonials",testimonialRoutes);
 
 app.use("*", (req, res) => {
   res

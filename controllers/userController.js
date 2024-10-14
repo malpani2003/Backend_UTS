@@ -18,7 +18,7 @@ const registerAdmin = async (req, res) => {
 
 const loginAdmin = async (req, res) => {
   const { email, password } = req.body;
-
+  console.log(req.body);
   try {
     const admin = await Admin.findOne({ email });
     if (!admin) {
@@ -31,18 +31,27 @@ const loginAdmin = async (req, res) => {
     }
 
     const token = admin.generateAuthToken();
+    console.log(token);
+    // res.cookie("token", token, {
+    //   httpOnly: true,
+    //   secure: false,
+    //   sameSite: "lax",
+    //   maxAge: 24 * 60 * 60 * 1000,
+    // });
     res.cookie("token", token, {
+      path: "/",
+      maxAge: 1000 * 60 * 60 * 24,
+      sameSite:"lax",
+      secure:false,
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      maxAge: 24 * 60 * 60 * 1000,
     });
-
+    res.header("Access-Control-Allow-Credentials", true); 
     res.status(200).json({ message: "Login successful" });
   } catch (error) {
     res.status(500).json({ error: "Failed to login" });
   }
 };
+
 
 module.exports = {
   registerAdmin,

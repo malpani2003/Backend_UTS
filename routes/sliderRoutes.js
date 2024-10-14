@@ -13,4 +13,10 @@ router.post(
   sliderController.addSlide
 );
 
+router.delete(
+  '/delete-slide/:id',
+  authMiddleware.checkIsAdmin,
+  sliderController.deleteSlide
+);
+
 module.exports = router;

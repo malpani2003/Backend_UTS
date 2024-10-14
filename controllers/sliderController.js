@@ -29,5 +29,19 @@ const getSlides = async (req, res) => {
   }
 };
 
+// Delete a slide
+const deleteSlide = async (req, res) => {
+  const { id } = req.params;
 
-module.exports={getSlides,addSlide};
+  try {
+    const slide = await Slider.findByIdAndDelete(id);
+    if (!slide) {
+      return res.status(404).json({ error: 'Slide not found' });
+    }
+    res.status(200).json({ message: 'Slide deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete slide' });
+  }
+};
+
+module.exports = { getSlides, addSlide, deleteSlide };

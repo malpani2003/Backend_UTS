@@ -42,9 +42,17 @@ const loginAdmin = async (req, res) => {
       path: "/",
       maxAge: 1000 * 60 * 60 * 24,
       sameSite:"lax",
-      secure:false,
+      secure:true,
       httpOnly: true,
     });
+
+    // res.cookie("token", token, {
+    //   path: "/",
+    //   maxAge: 1000 * 60 * 60 * 24,
+    //   sameSite:"lax",
+    //   secure:false,
+    //   httpOnly: true,
+    // });
     res.header("Access-Control-Allow-Credentials", true); 
     res.status(200).json({ message: "Login successful" });
   } catch (error) {

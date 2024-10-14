@@ -23,7 +23,7 @@ router.post("/logout", (req, res) => {
   // Clear the authentication cookie
   res.clearCookie("token", {
     httpOnly: true,
-    secure: false,
+    secure: true,
     path: "/",
     sameSite: "lax",
   });

@@ -41,7 +41,7 @@ const loginAdmin = async (req, res) => {
     res.cookie("token", token, {
       path: "/",
       maxAge: 1000 * 60 * 60 * 24,
-      sameSite:"lax",
+      sameSite:"none",
       secure:true,
       httpOnly: true,
     });

@@ -30,12 +30,27 @@ const app = express();
 
 // Production
 
-const corsOptions = {
-  origin: "https://admin-panel-uts.netlify.app", 
-  credentials:true,
-};
+// const corsOptions = {
+//   origin: "https://admin-panel-uts.netlify.app", 
+//   credentials:true,
+// };
 
-app.use(cors(corsOptions));
+app.use(cors({
+    origin: (origin, callback) => {
+        const allowedOrigins = [
+            "https://admin-panel-uts.netlify.app",
+            "https://unstoptechnosolution.com"
+        ];
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true,
+}));
+
+// app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(bodyParser.json());
 

@@ -3,13 +3,13 @@ const nodemailer = require('nodemailer');
 const transporter=require("../config/node_mailer");
 
 const submitContact = async (req, res) => {
-  const { name, email, mobileNumber, message } = req.body;
+  const { name, email, mobile, message } = req.body;
 
   try {
     const newContact = new Contact({
       name,
       email,
-      mobileNumber,
+      mobile,
       message,
     });
     
@@ -23,13 +23,13 @@ const submitContact = async (req, res) => {
       text: `
         Name: ${name}
         Email: ${email}
-        Mobile Number: ${mobileNumber}
+        Mobile Number: ${mobile}
         Message: ${message}
       `,
       html: `
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Mobile Number:</strong> ${mobileNumber}</p>
+        <p><strong>Mobile Number:</strong> ${mobile}</p>
         <p><strong>Message:</strong> ${message}</p>
       `,
     };

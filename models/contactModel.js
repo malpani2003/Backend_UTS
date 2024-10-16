@@ -20,16 +20,17 @@ const contactSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: function(v) {
-        return /^[0-9]{10}$/.test(v);
+        // Updated regex to allow phone numbers in the format +<country_code><number>
+        return /^\+\d{12}$/.test(v);
       },
-      message: props => `${props.value} is not a valid mobile number!`,
+      message: props => `${props.value} is not a valid mobile number! It should be in the format +<country_code><number> (e.g., +919636326284).`,
     },
   },
   message: {
     type: String,
     required: true,
   },
-}, { timestamps: true }); // Automatically manage createdAt and updatedAt fields
+}, { timestamps: true });
 
 const Contact = mongoose.model('Contact', contactSchema);
 
